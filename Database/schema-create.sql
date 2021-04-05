@@ -1,6 +1,16 @@
+DROP DATABASE IF EXISTS Heartbeats_dev;
+
 CREATE database Heartbeats_dev;
 
 USE Heartbeats_dev;
+
+CREATE TABLE `admin` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL unique,
+  `password` varchar(1024) NOT NULL,
+  `level` int NOT NULL
+);
 
 CREATE TABLE `patient` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
