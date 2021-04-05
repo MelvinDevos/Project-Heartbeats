@@ -10,6 +10,9 @@ app.use(express.json()); //Used to parse JSON bodies
 const auth = require("./Routes/auth");
 app.use("/auth", auth);
 
+const patient = require("./Routes/patient");
+app.use("/patient", patient);
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Heartbeats server listening on port: ${port}`);
