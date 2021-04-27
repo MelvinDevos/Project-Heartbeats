@@ -4,7 +4,7 @@
       <v-app-bar-nav-icon @click="drawer = !drawer" large class="ml-1"></v-app-bar-nav-icon>
       <v-toolbar-title>Heartbeats vzw</v-toolbar-title>
       <v-spacer></v-spacer>
-      <v-btn text class="px-5 primary" depressed rounded @click="logout">
+      <v-btn text class="px-5 primary" depressed rounded  @click="logout">
         <span>Log uit</span>
         <v-icon right>exit_to_app</v-icon>
       </v-btn>
@@ -21,7 +21,7 @@
           <v-col md="12">
             <v-card fluid class="mx-2">
               <v-card-title>Welkom!</v-card-title>
-              <v-card-subtitle>{{username}}</v-card-subtitle>
+              <v-card-subtitle>{{getName}}</v-card-subtitle>
             </v-card>
           </v-col>
         </v-row>
@@ -44,25 +44,22 @@
 </template>
 
 <script>
-import store from '../store';
+import { mapActions, mapGetters } from "vuex";
 export default {
   data() {
     return {
       drawer: false,
-      username: store.state.naam,
       links: [
         { icon: "dashboard", text: "Dashboard", route: "/Dashboard" },
-        { icon: "people_alt", text: "Patiënten", route: "/Users" },
+        { icon: "people_alt", text: "Patiënten", route: "/Patients" },
         { icon: "queue_music", text: "Muziek", route: "/Muziek" },
         //{ icon: "admin_panel_settings", text: "Beheerders", route: "/Admin" },
       ],
     };
   },
+  computed: mapGetters(["getName"]),
   methods: {
-    logout: function () {
-      store.state.token = null
-      this.$router.push("/")
-    },
+    ...mapActions(["logout"]),
   },
 };
 </script>

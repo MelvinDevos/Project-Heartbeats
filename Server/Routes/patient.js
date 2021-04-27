@@ -68,7 +68,7 @@ router.put("/update/:id", verify, async (req, res) => {
 
 router.delete("/delete/:id", verify, (req, res) => {
   const id = req.params.id;
-
+console.log(id)
   const connection = pool.query(
     `DELETE FROM patient WHERE id=${id}`,
     (error, result) => {

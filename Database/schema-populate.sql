@@ -1,9 +1,11 @@
 USE Heartbeats_dev;
 
 INSERT INTO patient (name,box_id,type_dementia,hr_tresh) VALUES ("Melvin Devos", "mskd4646sdfs","Early stage",80);
+INSERT INTO patient (name,box_id,type_dementia,hr_tresh) VALUES ("Bryanana", "idk","Weird stage",90);
 
 INSERT INTO playlist (patient_id, name) VALUES (1, "Melvin custom playlist");
 INSERT INTO playlist (patient_id, name) VALUES (1, "Melvin custom playlist 2");
+INSERT INTO playlist (patient_id, name) VALUES (2, "Bryan custom playlist 2");
 
 INSERT INTO songs (name, yt_link) VALUES ("We are number one, Remix","qol5HvBR8jc");
 INSERT INTO songs (name, yt_link) VALUES ("Seven Nation Army, Evokings Remix","KyZlegM0eKY");
@@ -22,5 +24,6 @@ INSERT INTO playlist_songs (playlist_id, song_id) VALUES (2, 3);
 INSERT INTO playlist_songs (playlist_id, song_id) VALUES (2, 4);
 INSERT INTO playlist_songs (playlist_id, song_id) VALUES (2, 5);
 INSERT INTO playlist_songs (playlist_id, song_id) VALUES (2, 6);
-
-INSERT INTO playlist_songs(playlist_id, song_id) VALUES (1, 1);
+INSERT INTO playlist_songs (playlist_id, song_id) VALUES (3, 4);
+INSERT INTO playlist_songs (playlist_id, song_id) VALUES (3, 5);
+INSERT INTO playlist_songs (playlist_id, song_id) VALUES (3, 6);

@@ -1,5 +1,7 @@
 const axios = require("axios");
 const jwt = require("jsonwebtoken");
+import router from '../../router/index'
+
 
 // A state
 const state = {
@@ -41,6 +43,9 @@ const actions = {
         console.log(error.response.data);
       });
   },
+  logout({ commit }){
+    commit("removeAuth")
+  },
 };
 
 // Changes state
@@ -54,11 +59,18 @@ const mutations = {
         if (decoded != undefined) {
           state.level = decoded.level;
           state.name = decoded.name;
-          state.token = data.token
+          state.token = data.token;
+          router.push("/Dashboard")
         }
       }
     );
   },
+  removeAuth: (state) =>{
+    state.token ="";
+    state.name = "";
+    state.level = 0;
+    router.push("/")
+  }
 };
 
 export default {
