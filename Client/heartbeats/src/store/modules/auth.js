@@ -1,4 +1,5 @@
 const axios = require("axios");
+const jwt = require("jsonwebtoken");
 
 // A state
 const state = {
@@ -18,7 +19,6 @@ const getters = {
 const actions = {
   // Action has param commit to "commit" a mutation
   async login({ commit }, user) {
-
     const headers = {
       "Content-Type": "application/json",
     };
@@ -34,7 +34,8 @@ const actions = {
       )
       .then(function (response) {
         console.log(response);
-        commit("setAuth", response);
+        console.log(process.env.VUE_APP_JWT_TOKEN_SECRET)
+        commit("setAuth", response.data);
       })
       .catch(function (error) {
         console.log(error.response.data);
@@ -44,8 +45,19 @@ const actions = {
 
 // Changes state
 const mutations = {
-  setAuth: (state, user) => {
-    state.token
+  setAuth: (state, data) => {
+    state.token = "testinggg";
+    jwt.verify(
+      data.token,
+      process.env.VUE_APP_JWT_TOKEN_SECRET,
+      function (err, decoded) {
+        if (decoded != undefined) {
+          state.level = decoded.level;
+          state.name = decoded.name;
+          state.token = data.token
+        }
+      }
+    );
   },
 };
 

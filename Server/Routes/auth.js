@@ -111,7 +111,7 @@ router.post("/login", async (req, res) => {
             return res
               .header("Authorization", token)
               .status(200)
-              .send({ message: "Admin logged in" });
+              .send({ message: "Admin logged in", token: token });
           }
         );
       }
