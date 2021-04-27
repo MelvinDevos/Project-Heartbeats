@@ -1,9 +1,10 @@
 const express = require("express");
 const dotenv = require("dotenv").config();
-
+const cors = require('cors')
 const pool = require("./Modules/db");
 const app = express();
 
+app.use(cors()) //CORS error
 app.use(express.json()); //Used to parse JSON bodies
 
 // Routes

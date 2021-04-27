@@ -5,7 +5,7 @@
         <v-card class="pa-8" outlined elevation="8">
           <v-card-title> Login </v-card-title>
           <v-card-subtitle> Gelieve u eerst in te loggen: </v-card-subtitle>
-          <v-form @submit.prevent="login">
+          <v-form @submit.prevent="btnClick" v-model="valid">
             <v-container>
               <v-row justify="center">
                 <v-col cols="11">
@@ -60,28 +60,33 @@
 <script>
 // @ is an alias to /src
 // import HelloWorld from "@/components/HelloWorld.vue";
+// import { loginService } from "@/services/auth.js";
+import { mapActions } from "vuex";
 
 export default {
   name: "Home",
-  // components: {
-  //   HelloWorld,
-  // },
-  data: () => ({
-    valid: false,
-    email: "",
-    emailRules: [
-      (v) => !!v || "E-mail is verplicht",
-      (v) => /.+@.+/.test(v) || "E-mail moet correct zijn",
-    ],
-    password: "",
-    passwordRules: [
-      (v) => !!v || "Wachtwoord is verplicht",
-      (v) => v.length >= 3 || "Wachtwoord moet minstens 3 karakters bevatten",
-    ],
-  }),
+  components: {},
+  data() {
+    return {
+      valid: false,
+      email: "",
+      emailRules: [
+        (v) => !!v || "E-mail is verplicht",
+        (v) => /.+@.+/.test(v) || "E-mail moet correct zijn",
+      ],
+      password: "",
+      passwordRules: [
+        (v) => !!v || "Wachtwoord is verplicht",
+        (v) => v.length >= 3 || "Wachtwoord moet minstens 3 karakters bevatten",
+      ],
+    };
+  },
   methods: {
-    login: function () {
-      console.log("logging in...");
+    ...mapActions(["login"]),
+    btnClick: function () {
+      console.log(this.email);
+      console.log(this.password);
+      this.login({ email: this.email, password: this.password });
     },
   },
 };
