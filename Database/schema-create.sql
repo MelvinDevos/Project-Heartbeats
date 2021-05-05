@@ -38,9 +38,9 @@ CREATE TABLE `playlist` (
   `name` varchar(255) NOT NULL
 );
 
-ALTER TABLE `playlist` ADD FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`);
+ALTER TABLE `playlist` ADD FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`) ON DELETE CASCADE;
 
-ALTER TABLE `playlist_songs` ADD FOREIGN KEY (`playlist_id`) REFERENCES `playlist` (`id`);
+ALTER TABLE `playlist_songs` ADD FOREIGN KEY (`playlist_id`) REFERENCES `playlist` (`id`) ON DELETE CASCADE;
 
 ALTER TABLE `playlist_songs` ADD FOREIGN KEY (`song_id`) REFERENCES `songs` (`id`);
 
