@@ -2,14 +2,13 @@ const express = require("express");
 const pool = require("../Modules/db");
 const verify = require("../modules/verifyToken");
 const joi = require("joi");
-const Joi = require("joi");
 
 const router = express.Router();
 
 //Validatie schema maken voor create
 const schemaCreate = joi.object({
   name: joi.string().required(),
-  box_id: joi.string().required(),
+  box_id: joi.string().allow(""),
   type_dementia: joi.string(),
   hr_tresh: joi.number(),
 });
@@ -34,18 +33,26 @@ router.post("/create", verify, async (req, res) => {
       `INSERT INTO patient (name, box_id, type_dementia, hr_tresh) VALUES (${patient.name}, ${patient.box_id}, ${patient.type_dementia}, ${patient.hr_tresh})`,
       (error, result) => {
         if (error) return res.status(400).send({ message: error.sqlMessage });
-        res.status(200).json({ message: "Patient created" });
+        res
+          .status(200)
+          .json({
+            message: "Patient created",
+            patient: { id: result.insertId, ...value },
+          });
       }
     );
   } catch (error) {
+    console.log("schema error");
     return res.status(400).send({ message: error.details[0].message });
   }
 });
 
 router.put("/update/:id", verify, async (req, res) => {
+  console.log("er is update voor patient")
   try {
     const value = await schemaCreate.validateAsync(req.body);
 
+    console.log(value);
     let patient = {
       id: pool.escape(req.params.id),
       name: pool.escape(value.name),
@@ -58,7 +65,14 @@ router.put("/update/:id", verify, async (req, res) => {
       `UPDATE patient SET  name=${patient.name}, box_id=${patient.box_id}, type_dementia=${patient.type_dementia}, hr_tresh=${patient.hr_tresh} WHERE id=${patient.id}`,
       (error, result) => {
         if (error) return res.status(400).send({ message: error.sqlMessage });
-        res.status(200).json({ message: "Patient updated" });
+        console.log(req.body);
+        console.log(patient);
+        res
+          .status(200)
+          .json({
+            message: "Patient updated",
+            patient: { ...req.body, id: req.params.id },
+          });
       }
     );
   } catch (error) {
@@ -68,7 +82,7 @@ router.put("/update/:id", verify, async (req, res) => {
 
 router.delete("/delete/:id", verify, (req, res) => {
   const id = req.params.id;
-console.log(id)
+  console.log(id);
   const connection = pool.query(
     `DELETE FROM patient WHERE id=${id}`,
     (error, result) => {

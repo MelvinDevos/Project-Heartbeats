@@ -27,7 +27,7 @@ const actions = {
 
     await axios
       .post(
-        "http://localhost:3000/auth/login",
+        `http://${process.env.VUE_APP_SERVER_IP}:${process.env.VUE_APP_SERVER_PORT}/auth/login`,
         {
           email: user.email,
           password: user.password,

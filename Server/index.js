@@ -14,6 +14,9 @@ app.use("/auth", auth);
 const patient = require("./Routes/patient");
 app.use("/patient", patient);
 
+const music = require("./Routes/music");
+app.use("/music", music);
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Heartbeats server listening on port: ${port}`);

@@ -52,7 +52,7 @@ export default {
       links: [
         { icon: "dashboard", text: "Dashboard", route: "/Dashboard" },
         { icon: "people_alt", text: "Patiënten", route: "/Patients" },
-        { icon: "queue_music", text: "Muziek", route: "/Muziek" },
+        { icon: "queue_music", text: "Muziek", route: "/Music" },
         //{ icon: "admin_panel_settings", text: "Beheerders", route: "/Admin" },
       ],
     };
