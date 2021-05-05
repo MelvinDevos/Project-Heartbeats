@@ -38,6 +38,13 @@ const routes = [
       import(/* webpackChunkName: "Dashboard" */ "../views/Music.vue"),
     meta: { requireAuth: true, requiredlevel: 2 },
   },
+  {
+    path: "/Playlists",
+    name: "Playlists",
+    component: () =>
+      import(/* webpackChunkName: "Dashboard" */ "../views/Playlists.vue"),
+    meta: { requireAuth: true, requiredlevel: 2 },
+  },
 ];
 
 const router = new VueRouter({

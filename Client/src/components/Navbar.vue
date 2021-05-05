@@ -52,7 +52,8 @@ export default {
       links: [
         { icon: "dashboard", text: "Dashboard", route: "/Dashboard" },
         { icon: "people_alt", text: "Patiënten", route: "/Patients" },
-        { icon: "queue_music", text: "Muziek", route: "/Music" },
+        { icon: "audiotrack", text: "Muziek", route: "/Music" },
+        { icon: "format_list_bulleted", text: "Playlists", route: "/Playlists" },
         //{ icon: "admin_panel_settings", text: "Beheerders", route: "/Admin" },
       ],
     };

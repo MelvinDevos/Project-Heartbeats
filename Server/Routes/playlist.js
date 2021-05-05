@@ -5,53 +5,29 @@ const joi = require("joi");
 const ChromecastAPI = require("chromecast-api");
 const client = new ChromecastAPI();
 
-client.on("device", function (device) {
-  // console.log(device);
-  var mediaURL =
-    "http://flandersrp.be/melvis.mp3";
-
-  // device.play(mediaURL, function (err) {
-  //   if (!err) console.log("Playing in your chromecast");
-  // });
-});
-
 const router = express.Router();
 
 //Validatie schema maken voor create
-const songAdd = joi.object({
-  name: joi.string().required(),
-  yt_link: joi.string().required(),
-  duration: joi.string().required(),
-});
-
-//Routes
-router.get("/", (req, res) => {
-  res.send("Hello from Heartbeats music API");
-});
-
-//Routes
-router.get("/device/show", (req, res) => {
-  const friendlyNames = client.devices.map(device => device.friendlyName)
-  console.log(friendlyNames)
-  res.status(200).send(JSON.stringify(friendlyNames))
+const playlistAdd = joi.object({
+  patient_id: joi.string().required(),
+  song_id: joi.string().required(),
 });
 
 router.post("/song/add", verify, async (req, res) => {
   try {
-    const value = await songAdd.validateAsync(req.body);
+    const value = await playlistAdd.validateAsync(req.body);
 
-    let song = {
-      name: pool.escape(value.name),
-      yt_link: pool.escape(value.yt_link),
-      duration: pool.escape(value.duration),
+    let playlist = {
+      patient_id: pool.escape(value.patient_id),
+      song_id: pool.escape(value.song_id),
     };
 
     const connection = pool.query(
-      `INSERT INTO songs (name, yt_link, duration) VALUES (${song.name}, ${song.yt_link}, ${song.duration})`,
+      `INSERT INTO playlist_songs (name, yt_link, duration) VALUES (${playlist.patient_id}, ${playlist.song_id})`,
       (error, result) => {
         if (error) return res.status(400).send({ message: error.sqlMessage });
         res.status(200).json({
-          message: "Song added",
+          message: "Playlist added",
           song: { id: result.insertId, ...value },
         });
       }
@@ -62,7 +38,7 @@ router.post("/song/add", verify, async (req, res) => {
   }
 });
 
-router.delete("/song/delete/:id", verify, (req, res) => {
+router.delete("/playlist/delete/:id", verify, (req, res) => {
   const id = req.params.id;
   console.log(id);
   const connection = pool.query(
@@ -74,7 +50,7 @@ router.delete("/song/delete/:id", verify, (req, res) => {
   );
 });
 
-router.get("/song/show/:id?", verify, (req, res) => {
+router.get("/playlist/show/:id?", verify, (req, res) => {
   const ID = req.params.id;
   let sql = "SELECT * FROM songs";
   if (ID) sql = `SELECT * FROM songs WHERE id = ${ID}`;
