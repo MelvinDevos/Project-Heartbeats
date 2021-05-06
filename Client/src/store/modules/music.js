@@ -54,7 +54,7 @@ const actions = {
       Authorization: rootGetters.getToken,
     };
     await axios
-      .post(`${process.env.VUE_APP_SERVER_IP}:${process.env.VUE_APP_SERVER_PORT}/music/song/add`, song, {
+      .post(`http://${process.env.VUE_APP_SERVER_IP}:${process.env.VUE_APP_SERVER_PORT}/music/song/add`, song, {
         headers: headers,
       })
       .then(function (response) {

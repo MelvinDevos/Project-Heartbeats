@@ -19,7 +19,10 @@ const actions = {
       Authorization: rootGetters.getToken,
     };
     await axios
-      .get(`http://${process.env.VUE_APP_SERVER_IP}:${process.env.VUE_APP_SERVER_PORT}/patient/show`, { headers: headers })
+      .get(
+        `http://${process.env.VUE_APP_SERVER_IP}:${process.env.VUE_APP_SERVER_PORT}/patient/show`,
+        { headers: headers }
+      )
       .then(function (response) {
         console.log(response);
         commit("setPatients", response.data);
@@ -29,6 +32,9 @@ const actions = {
       });
   },
   async updatePatient({ commit, rootGetters }, patient) {
+    patient.box_id = rootGetters.getSelectedSpeaker;
+    console.log("voor de update<<<<<<");
+    console.log(patient);
     const id = patient.id;
     delete patient.id;
     console.log("update uitgevoerd!");
@@ -43,9 +49,13 @@ const actions = {
     // patient = {...patient, box_id: rootGetters.getSelectedSpeaker}
     // console.log(patient)
     await axios
-      .put(`${process.env.VUE_APP_SERVER_IP}:${process.env.VUE_APP_SERVER_PORT}/patient/update/${id}`, patient, {
-        headers: headers,
-      })
+      .put(
+        `http://${process.env.VUE_APP_SERVER_IP}:${process.env.VUE_APP_SERVER_PORT}/patient/update/${id}`,
+        patient,
+        {
+          headers: headers,
+        }
+      )
       .then(function (response) {
         console.log(response);
         commit("updatePatient", response.data.patient);
@@ -62,16 +72,20 @@ const actions = {
       Authorization: rootGetters.getToken,
     };
     await axios
-      .post(`http://${process.env.VUE_APP_SERVER_IP}:${process.env.VUE_APP_SERVER_PORT}/patient/create`, patient, {
-        headers: headers,
-      })
+      .post(
+        `http://${process.env.VUE_APP_SERVER_IP}:${process.env.VUE_APP_SERVER_PORT}/patient/create`,
+        patient,
+        {
+          headers: headers,
+        }
+      )
       .then(function (response) {
-        console.log("iets goed added")
+        console.log("iets goed added");
         console.log(response);
         commit("addPatient", response.data.patient);
       })
       .catch(function (error) {
-        console.log("errorke")
+        console.log("errorke");
         console.log(error.response.data);
       });
   },
@@ -82,9 +96,12 @@ const actions = {
     };
     console.log(id);
     await axios
-      .delete(`http://${process.env.VUE_APP_SERVER_IP}:${process.env.VUE_APP_SERVER_PORT}/patient/delete/${id}`, {
-        headers: headers,
-      })
+      .delete(
+        `http://${process.env.VUE_APP_SERVER_IP}:${process.env.VUE_APP_SERVER_PORT}/patient/delete/${id}`,
+        {
+          headers: headers,
+        }
+      )
       .then(function () {
         commit("deletePatient", id);
       })
@@ -92,9 +109,9 @@ const actions = {
         console.log(error.response.data);
       });
   },
-  sortAction({commit}, prop){
-    commit("sortPatients", prop)
-  }
+  sortAction({ commit }, prop) {
+    commit("sortPatients", prop);
+  },
 };
 
 // Changes state
@@ -114,8 +131,8 @@ const mutations = {
       return patient;
     });
   },
-  sortPatients(state, prop){
-    state.patients.sort((a,b) => a[prop] < b[prop] ? -1 : 1)
+  sortPatients(state, prop) {
+    state.patients.sort((a, b) => (a[prop] < b[prop] ? -1 : 1));
   },
 };
 

@@ -7,57 +7,67 @@ const client = new ChromecastAPI();
 
 const router = express.Router();
 
-//Validatie schema maken voor create
-const playlistAdd = joi.object({
-  patient_id: joi.string().required(),
-  song_id: joi.string().required(),
-});
-
-router.post("/song/add", verify, async (req, res) => {
+router.put("/update/:id", verify, async (req, res) => {
+  console.log("er is update voor patient", req.params.id);
   try {
-    const value = await playlistAdd.validateAsync(req.body);
+    console.log(req.body);
 
-    let playlist = {
-      patient_id: pool.escape(value.patient_id),
-      song_id: pool.escape(value.song_id),
-    };
+    let stringSQL = "";
+
+    req.body.forEach((element) => {
+      stringSQL += `(${req.params.id},${element.id}),`;
+    });
+
+    stringSQL = stringSQL.slice(0, -1);
+
+    console.log(stringSQL);
 
     const connection = pool.query(
-      `INSERT INTO playlist_songs (name, yt_link, duration) VALUES (${playlist.patient_id}, ${playlist.song_id})`,
+      `DELETE FROM playlist_songs WHERE patient_id = '${req.params.id}'  `,
       (error, result) => {
-        if (error) return res.status(400).send({ message: error.sqlMessage });
-        res.status(200).json({
-          message: "Playlist added",
-          song: { id: result.insertId, ...value },
-        });
+        if (error) {
+          console.log(error.sqlMessage);
+          return res.status(400).send({ message: error.sqlMessage });
+        }
+
+        const connection = pool.query(
+          `INSERT INTO playlist_songs (patient_id, song_id) VALUES ${stringSQL} `,
+          (error, result) => {
+            if (error) {
+              console.log(error.sqlMessage);
+              return res.status(400).send({ message: error.sqlMessage });
+            }
+            res.status(200).json({
+              message: "Playlist updated",
+            });
+          }
+        );
       }
     );
   } catch (error) {
-    console.log("schema error");
     return res.status(400).send({ message: error.details[0].message });
   }
 });
 
-router.delete("/playlist/delete/:id", verify, (req, res) => {
-  const id = req.params.id;
-  console.log(id);
-  const connection = pool.query(
-    `DELETE FROM songs WHERE id=${id}`,
-    (error, result) => {
-      if (error) return res.status(400).send({ message: error.sqlMessage });
-      res.status(200).json({ message: "Song deleted" });
-    }
-  );
-});
-
-router.get("/playlist/show/:id?", verify, (req, res) => {
+router.get("/show/:id", verify, (req, res) => {
   const ID = req.params.id;
-  let sql = "SELECT * FROM songs";
-  if (ID) sql = `SELECT * FROM songs WHERE id = ${ID}`;
+  console.log("Playlist vragen met ID: ", ID);
+  let sql = `SELECT song_id FROM playlist_songs WHERE patient_id = ${ID}`;
 
   const connection = pool.query(sql, (error, result) => {
+    console.log("resultaat");
+    console.log(JSON.stringify(result));
+    const newResult = result.map((song) => {
+      let newSong = {
+        id: song.song_id,
+      };
+      console.log(newSong);
+      return newSong;
+    });
+
+    console.log(newResult);
     if (error) return res.status(400).send({ message: error.sqlMessage });
-    res.status(200).json(result);
+    res.status(200).json(newResult);
   });
 });
 

@@ -2,6 +2,7 @@ const express = require("express");
 const dotenv = require("dotenv").config();
 const cors = require('cors')
 const pool = require("./Modules/db");
+const speakers = require("./Modules/speaker");
 const app = express();
 
 app.use(cors()) //CORS error
@@ -20,6 +21,8 @@ app.use("/music", music);
 const playlist = require("./Routes/playlist");
 app.use("/playlist", playlist);
 
+const stress = require("./Routes/stress");
+app.use("/stress", stress);
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Heartbeats server listening on port: ${port}`);

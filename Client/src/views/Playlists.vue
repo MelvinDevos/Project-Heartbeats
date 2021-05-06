@@ -1,7 +1,6 @@
 <template>
   <div class="Dashboard" fill-height>
     <Navbar />
-    PLAYLISTS
     <v-container class="px-15" fluid>
       <v-row align="center" class="pt-4">
         <v-col class="pl-0" sm="2">
@@ -17,7 +16,7 @@
           ></v-select>
         </v-col>
         <v-spacer></v-spacer>
-        <Addpatient />
+        <!-- <Addpatient /> -->
       </v-row>
       <v-row class="py-4">
 
@@ -33,7 +32,7 @@
                 />
               </v-expansion-panel-header>
               <v-expansion-panel-content>
-                 <musicselector :Id="patient.id" />
+                 <Musicselector :Id="patient.id" />
               </v-expansion-panel-content>
             </v-expansion-panel>
           </v-expansion-panels>

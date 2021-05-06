@@ -2,18 +2,8 @@ const express = require("express");
 const pool = require("../Modules/db");
 const verify = require("../modules/verifyToken");
 const joi = require("joi");
-const ChromecastAPI = require("chromecast-api");
-const client = new ChromecastAPI();
+const speakers = require("../Modules/speaker");
 
-client.on("device", function (device) {
-  // console.log(device);
-  var mediaURL =
-    "http://flandersrp.be/melvis.mp3";
-
-  // device.play(mediaURL, function (err) {
-  //   if (!err) console.log("Playing in your chromecast");
-  // });
-});
 
 const router = express.Router();
 
@@ -31,7 +21,7 @@ router.get("/", (req, res) => {
 
 //Routes
 router.get("/device/show", (req, res) => {
-  const friendlyNames = client.devices.map(device => device.friendlyName)
+  const friendlyNames = speakers.devices.map(device => device.friendlyName)
   console.log(friendlyNames)
   res.status(200).send(JSON.stringify(friendlyNames))
 });
