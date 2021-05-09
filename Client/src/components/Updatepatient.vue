@@ -34,6 +34,17 @@
 
           <v-row>
             <v-col>
+              <v-text-field
+                label="Leeftijd"
+                v-model="patient.age"
+                prepend-icon="cake"
+                required
+              ></v-text-field>
+            </v-col>
+          </v-row>
+
+          <v-row>
+            <v-col>
               <Speakerselector />
             </v-col>
           </v-row>
@@ -92,6 +103,7 @@ export default {
       patient: {
         id: this.Patient.id,
         name: this.Patient.name,
+        age: this.Patient.age,
         type_dementia: this.Patient.type_dementia,
         hr_tresh: this.Patient.hr_tresh,
         box_id: this.getSelectedSpeaker,

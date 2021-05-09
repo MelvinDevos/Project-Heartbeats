@@ -26,16 +26,18 @@
 
           <v-row>
             <v-col>
-              <v-select
-                ref="speaker"
-                prepend-icon="speaker"
-                v-model="patient.box_id"
-                :items="speakers"
-                item-text="text"
-                item-value="id"
-                label="Box-ID"
-                placeholder="Select..."
-              ></v-select>
+              <v-text-field
+                label="Leeftijd"
+                v-model="patient.age"
+                prepend-icon="cake"
+                required
+              ></v-text-field>
+            </v-col>
+          </v-row>
+
+          <v-row>
+            <v-col>
+              <Speakerselector />
             </v-col>
           </v-row>
 
@@ -79,14 +81,19 @@
 </template>
 
 <script>
+import Speakerselector from "@/components/Speakerselector.vue";
 import { mapActions } from "vuex";
 
 export default {
+  components: {
+    Speakerselector,
+  },
   data() {
     return {
       speakers: [],
       patient: {
         name: "",
+        age: 0,
         type_dementia: "",
         hr_tresh: 0,
         box_id: "",

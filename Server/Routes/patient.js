@@ -8,6 +8,7 @@ const router = express.Router();
 //Validatie schema maken voor create
 const schemaCreate = joi.object({
   name: joi.string().required(),
+  age: joi.number().required(),
   box_id: joi.string().allow(""),
   type_dementia: joi.string(),
   hr_tresh: joi.number(),
@@ -24,13 +25,14 @@ router.post("/create", verify, async (req, res) => {
 
     let patient = {
       name: pool.escape(value.name),
+      age: pool.escape(value.age),
       box_id: pool.escape(value.box_id),
       type_dementia: pool.escape(value.type_dementia),
       hr_tresh: pool.escape(value.hr_tresh),
     };
 
     const connection = pool.query(
-      `INSERT INTO patient (name, box_id, type_dementia, hr_tresh) VALUES (${patient.name}, ${patient.box_id}, ${patient.type_dementia}, ${patient.hr_tresh})`,
+      `INSERT INTO patient (name, age, box_id, type_dementia, hr_tresh) VALUES (${patient.name}, ${patient.age}, ${patient.box_id}, ${patient.type_dementia}, ${patient.hr_tresh})`,
       (error, result) => {
         if (error) return res.status(400).send({ message: error.sqlMessage });
         res
