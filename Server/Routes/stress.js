@@ -65,9 +65,9 @@ class Player {
         this.box_id.on('finished',function () {
           console.log('Ready for next song')
           //device.stop()
-          device.close()
+          this.box_id.close()
           console.log('and my name is')
-          console.log(device.friendlyName)
+          console.log( this.box_id.friendlyName)
           this.index++;
           playMusic()
         })
@@ -80,6 +80,7 @@ class Player {
           console.log("box niet gevonden")
         }
         else{
+          this.box_id.close()
           console.log(err.message)
         }
       }
@@ -212,7 +213,7 @@ function getDefaultPlaylist(patientInfo) {
   const year = today.getFullYear(); 
   return new Promise(resolve => {
     let songArray = []
-    let sql = `SELECT name, ytlink, year FROM default_songs WHERE year BETWEEN ${year - patientInfo.age + 15} AND ${year - patientInfo.age + 25} `;
+    let sql = `SELECT name, yt_link, year FROM default_songs WHERE year BETWEEN ${year - patientInfo.age + 15} AND ${year - patientInfo.age + 25} `;
     const connection = pool.query(sql, (error, result) => {
       result.forEach(function (row) {
         songArray.push({name: row.name, yt_link: row.yt_link, year: row.year})
