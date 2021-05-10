@@ -52,7 +52,6 @@ export default {
           sortable: true,
           value: "name",
         },
-        { text: "Duratie", value: "duration" },
       ],
     };
   },

@@ -23,8 +23,7 @@ CREATE TABLE `patient` (
 CREATE TABLE `songs` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
-  `yt_link` varchar(255) NOT NULL,
-  `duration` varchar(255) NOT NULL
+  `yt_link` varchar(255) NOT NULL
 );
 
 CREATE TABLE `playlist_songs` (
