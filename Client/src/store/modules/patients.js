@@ -66,6 +66,9 @@ const actions = {
   },
 
   async addPatient({ commit, rootGetters }, patient) {
+    patient.box_id = rootGetters.getSelectedSpeaker;
+    console.log("voor de add<<<<<<");
+    console.log(patient);
     console.log("add uitgevoerd!");
     const headers = {
       "Content-Type": "application/json",

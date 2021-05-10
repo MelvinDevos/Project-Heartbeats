@@ -11,7 +11,6 @@ const router = express.Router();
 const songAdd = joi.object({
   name: joi.string().required(),
   yt_link: joi.string().required(),
-  duration: joi.string().required(),
 });
 
 //Routes
@@ -33,11 +32,10 @@ router.post("/song/add", verify, async (req, res) => {
     let song = {
       name: pool.escape(value.name),
       yt_link: pool.escape(value.yt_link),
-      duration: pool.escape(value.duration),
     };
 
     const connection = pool.query(
-      `INSERT INTO songs (name, yt_link, duration) VALUES (${song.name}, ${song.yt_link}, ${song.duration})`,
+      `INSERT INTO songs (name, yt_link) VALUES (${song.name}, ${song.yt_link})`,
       (error, result) => {
         if (error) return res.status(400).send({ message: error.sqlMessage });
         res.status(200).json({

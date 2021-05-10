@@ -29,6 +29,7 @@
         <!-- {{ selected }} -->
       </template>
     </v-data-table>
+    
   </div>
 </template>
 
@@ -51,7 +52,6 @@ export default {
           sortable: true,
           value: "name",
         },
-        { text: "Duratie", value: "duration" },
       ],
     };
   },

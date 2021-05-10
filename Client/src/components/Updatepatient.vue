@@ -34,6 +34,17 @@
 
           <v-row>
             <v-col>
+              <v-text-field
+                label="Leeftijd"
+                v-model="patient.age"
+                prepend-icon="cake"
+                required
+              ></v-text-field>
+            </v-col>
+          </v-row>
+
+          <v-row>
+            <v-col>
               <Speakerselector />
             </v-col>
           </v-row>
@@ -61,14 +72,20 @@
           </v-row>
 
           <v-row justify="space-around">
-            <v-btn
-              class="blue lighten-1 mb-2"
-              @click="dialog = false"
-              rounded
-              type="submit"
-              ><span class="font-weight-bold">Update</span>
-              <v-icon right>update</v-icon>
-            </v-btn>
+            <div>
+              <v-checkbox
+                v-model="patient.custom"
+                :label="`Custom playlist`"
+              ></v-checkbox>
+              <v-btn
+                class="blue lighten-1 mb-2"
+                @click="dialog = false"
+                rounded
+                type="submit"
+                ><span class="font-weight-bold">Update</span>
+                <v-icon right>update</v-icon>
+              </v-btn>
+            </div>
           </v-row>
         </v-container>
       </v-form>
@@ -92,9 +109,11 @@ export default {
       patient: {
         id: this.Patient.id,
         name: this.Patient.name,
+        age: this.Patient.age,
         type_dementia: this.Patient.type_dementia,
         hr_tresh: this.Patient.hr_tresh,
         box_id: this.getSelectedSpeaker,
+        custom: this.Patient.custom,
       },
       dialog: false,
     };

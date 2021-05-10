@@ -74,7 +74,6 @@ export default {
           value: "name",
         },
         { text: "YT link", value: "yt_link" },
-        { text: "Duratie", value: "duration" },
         { text: "Actions", value: "actions", sortable: false },
       ],
       editedIndex: -1,

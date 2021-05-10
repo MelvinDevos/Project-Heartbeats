@@ -26,16 +26,18 @@
 
           <v-row>
             <v-col>
-              <v-select
-                ref="speaker"
-                prepend-icon="speaker"
-                v-model="patient.box_id"
-                :items="speakers"
-                item-text="text"
-                item-value="id"
-                label="Box-ID"
-                placeholder="Select..."
-              ></v-select>
+              <v-text-field
+                label="Leeftijd"
+                v-model="patient.age"
+                prepend-icon="cake"
+                required
+              ></v-text-field>
+            </v-col>
+          </v-row>
+
+          <v-row>
+            <v-col>
+              <Speakerselector />
             </v-col>
           </v-row>
 
@@ -62,14 +64,20 @@
           </v-row>
 
           <v-row justify="space-around">
-            <v-btn
-              class="green lighten-1 mb-2"
-              @click="dialog = false"
-              rounded
-              type="submit"
-              ><span class="font-weight-bold">Toevoegen</span>
-              <v-icon right>add</v-icon>
-            </v-btn>
+            <div>
+              <v-checkbox
+                v-model="patient.custom"
+                :label="`Custom playlist`"
+              ></v-checkbox>
+              <v-btn
+                class="green lighten-1 mb-2"
+                @click="dialog = false"
+                rounded
+                type="submit"
+                ><span class="font-weight-bold">Toevoegen</span>
+                <v-icon right>add</v-icon>
+              </v-btn>
+            </div>
           </v-row>
         </v-container>
       </v-form>
@@ -79,17 +87,23 @@
 </template>
 
 <script>
+import Speakerselector from "@/components/Speakerselector.vue";
 import { mapActions } from "vuex";
 
 export default {
+  components: {
+    Speakerselector,
+  },
   data() {
     return {
       speakers: [],
       patient: {
         name: "",
+        age: 0,
         type_dementia: "",
         hr_tresh: 0,
         box_id: "",
+        custom:0,
       },
       dialog: false,
     };

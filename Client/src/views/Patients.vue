@@ -41,7 +41,10 @@
                       <div class="caption grey--text">Box-ID:</div>
                       <div>{{ patient.box_id }}</div>
                     </div>
-
+                    <div>
+                      <div class="caption grey--text">Leeftijd:</div>
+                      <div>{{ patient.age }}</div>
+                    </div>
                     <div>
                       <div class="caption grey--text">Basis Hartslag:</div>
                       <div>{{ patient.hr_tresh }}</div>
