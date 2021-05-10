@@ -41,7 +41,9 @@ class Player {
       console.log(`${error}`);
     }
   }
-  playMusic(){
+  async playMusic(){
+    let timer
+    clearTimeout(this.timer);
     console.log('index is ' + this.index)
     console.log('this is the song')
     console.log(this.song_array[this.index])
@@ -55,22 +57,20 @@ class Player {
       var mediaURL = "http://"+process.env.YAS_IP + ":"+process.env.YAS_PORT + "/" + this.song_array[this.index].yt_link;
       console.log("current url")
       console.log(mediaURL)
-      
       try{
+
+        let that = this
+        this.box_id.on('finished',function () {
+          console.log('on device')
+          console.log(that.box_id.friendlyName)
+          that.index++;
+          that.playMusic()
+        })
         this.box_id.play(mediaURL, function (err) {
           if (!err){
             console.log("Playing in your chromecast")
           }
-        });
-        this.box_id.on('finished',function () {
-          console.log('Ready for next song')
-          //device.stop()
-          this.box_id.close()
-          console.log('and my name is')
-          console.log( this.box_id.friendlyName)
-          this.index++;
-          playMusic()
-        })
+        });        
       }
       catch(err){
         currentlyPlaying = currentlyPlaying.filter((obj) => {
@@ -80,14 +80,12 @@ class Player {
           console.log("box niet gevonden")
         }
         else{
-          this.box_id.close()
-          console.log(err.message)
+          console.log(err)
         }
       }
     }
   }
   stopMusic(){
-    this.box_id.close()
     console.log("ik ben stop music")
     console.log("dit gaat om patient")
     console.log(this.patient_id)
@@ -194,7 +192,6 @@ function getPlaylist(patientID) {
     let sql = `SELECT name, yt_link FROM songs WHERE id in( SELECT song_id FROM playlist_songs WHERE patient_id= ${patientID})`;
     const connection = pool.query(sql, (error, result) => {
       result.forEach(function (row) {
-        let seconds = parseInt(splitted[1]) + parseInt(splitted[0]) * 60;
         songArray.push({name: row.name, yt_link: row.yt_link})
       });
       // console.log("Result:")

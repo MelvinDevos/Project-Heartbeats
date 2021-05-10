@@ -5,4 +5,7 @@ client.on("device", function (device) {
   console.log("Speaker gevonden: ",device.friendlyName);
 });
 
+
+
+
 module.exports = client;
