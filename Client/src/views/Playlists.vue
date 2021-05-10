@@ -27,12 +27,14 @@
               class="my-0"
             >
               <v-expansion-panel-header>
-                <Playlistcard
-                  :Name="patient.name"
-                />
+                <v-col cols="10" md2 class="pa-0 mx-5">
+                  <Playlistcard
+                    :Name="patient.name"
+                  />
+                </v-col>
               </v-expansion-panel-header>
               <v-expansion-panel-content>
-                 <Musicselector :Id="patient.id" />
+                 <Musicselector :Id="patient.id"/>
               </v-expansion-panel-content>
             </v-expansion-panel>
           </v-expansion-panels>

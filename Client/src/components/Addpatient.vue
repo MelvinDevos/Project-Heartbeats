@@ -64,14 +64,20 @@
           </v-row>
 
           <v-row justify="space-around">
-            <v-btn
-              class="green lighten-1 mb-2"
-              @click="dialog = false"
-              rounded
-              type="submit"
-              ><span class="font-weight-bold">Toevoegen</span>
-              <v-icon right>add</v-icon>
-            </v-btn>
+            <div>
+              <v-checkbox
+                v-model="patient.custom"
+                :label="`Custom playlist`"
+              ></v-checkbox>
+              <v-btn
+                class="green lighten-1 mb-2"
+                @click="dialog = false"
+                rounded
+                type="submit"
+                ><span class="font-weight-bold">Toevoegen</span>
+                <v-icon right>add</v-icon>
+              </v-btn>
+            </div>
           </v-row>
         </v-container>
       </v-form>
@@ -97,6 +103,7 @@ export default {
         type_dementia: "",
         hr_tresh: 0,
         box_id: "",
+        custom:0,
       },
       dialog: false,
     };

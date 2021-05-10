@@ -72,14 +72,20 @@
           </v-row>
 
           <v-row justify="space-around">
-            <v-btn
-              class="blue lighten-1 mb-2"
-              @click="dialog = false"
-              rounded
-              type="submit"
-              ><span class="font-weight-bold">Update</span>
-              <v-icon right>update</v-icon>
-            </v-btn>
+            <div>
+              <v-checkbox
+                v-model="patient.custom"
+                :label="`Custom playlist`"
+              ></v-checkbox>
+              <v-btn
+                class="blue lighten-1 mb-2"
+                @click="dialog = false"
+                rounded
+                type="submit"
+                ><span class="font-weight-bold">Update</span>
+                <v-icon right>update</v-icon>
+              </v-btn>
+            </div>
           </v-row>
         </v-container>
       </v-form>
@@ -107,6 +113,7 @@ export default {
         type_dementia: this.Patient.type_dementia,
         hr_tresh: this.Patient.hr_tresh,
         box_id: this.getSelectedSpeaker,
+        custom: this.Patient.custom,
       },
       dialog: false,
     };
