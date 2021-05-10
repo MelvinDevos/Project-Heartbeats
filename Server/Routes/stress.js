@@ -19,12 +19,9 @@ let currentlyPlaying=[]
 // }
 
 class music {
-  constructor(id = "empty", duration, naam) {
+  constructor(id = "empty", naam) {
     try {
       this.Id = id;
-      let splitted = duration.split(":");
-      let seconds = parseInt(splitted[1]) + parseInt(splitted[0]) * 60;
-      this.duration = seconds;
       this.naam = naam;
     } catch (error) {
       console.log(`${error}`);
@@ -45,8 +42,6 @@ class Player {
     }
   }
   playMusic(){
-    let timer
-    // clearTimeout(this.timer);
     console.log('index is ' + this.index)
     console.log('this is the song')
     console.log(this.song_array[this.index])
@@ -60,26 +55,38 @@ class Player {
       var mediaURL = "http://"+process.env.YAS_IP + ":"+process.env.YAS_PORT + "/" + this.song_array[this.index].yt_link;
       console.log("current url")
       console.log(mediaURL)
-      let time = this.song_array[this.index].duration * 1000 + 5000
-      console.log("tijd")
-      console.log(time)
-      timer = setTimeout(() => {
-        this.playMusic();
-      }, time);
-      this.index++;
+      
       try{
         this.box_id.play(mediaURL, function (err) {
           if (!err){
             console.log("Playing in your chromecast")
           }
         });
+        this.box_id.on('finished',function () {
+          console.log('Ready for next song')
+          //device.stop()
+          device.close()
+          console.log('and my name is')
+          console.log(device.friendlyName)
+          this.index++;
+          playMusic()
+        })
       }
       catch(err){
-        console.log(err)
+        currentlyPlaying = currentlyPlaying.filter((obj) => {
+          return obj.patient_id !== this.patient_id;
+        });
+        if(err.message = "Cannot read property 'play' of undefined"){
+          console.log("box niet gevonden")
+        }
+        else{
+          console.log(err.message)
+        }
       }
     }
   }
   stopMusic(){
+    this.box_id.close()
     console.log("ik ben stop music")
     console.log("dit gaat om patient")
     console.log(this.patient_id)
@@ -89,7 +96,6 @@ class Player {
     console.log(currentlyPlaying)
   }
 }
-client.update()
 router.post("/meting/:id", async (req, res) => {
   
   console.log("er is stressmeting voor patient", req.params.id);
@@ -184,13 +190,11 @@ function shuffle(array) {
 function getPlaylist(patientID) {
   return new Promise(resolve => {
     let songArray = []
-    let sql = `SELECT * FROM songs WHERE id in( SELECT song_id FROM playlist_songs WHERE patient_id= ${patientID})`;
+    let sql = `SELECT name, yt_link FROM songs WHERE id in( SELECT song_id FROM playlist_songs WHERE patient_id= ${patientID})`;
     const connection = pool.query(sql, (error, result) => {
       result.forEach(function (row) {
-        let splitted = row.duration.split(":");
         let seconds = parseInt(splitted[1]) + parseInt(splitted[0]) * 60;
-        songArray.push({name: row.name, yt_link: row.yt_link, duration: seconds})
-        //songArray.push(new music(row.yt_link, row.duration, row.name));
+        songArray.push({name: row.name, yt_link: row.yt_link})
       });
       // console.log("Result:")
       // console.log(result)
@@ -208,13 +212,11 @@ function getDefaultPlaylist(patientInfo) {
   const year = today.getFullYear(); 
   return new Promise(resolve => {
     let songArray = []
-    let sql = `SELECT * FROM default_songs WHERE year BETWEEN ${year - patientInfo.age + 15} AND ${year - patientInfo.age + 25} `;
+    let sql = `SELECT name, ytlink, year FROM default_songs WHERE year BETWEEN ${year - patientInfo.age + 15} AND ${year - patientInfo.age + 25} `;
     const connection = pool.query(sql, (error, result) => {
       result.forEach(function (row) {
-        let splitted = row.duration.split(":");
-        let seconds = parseInt(splitted[1]) + parseInt(splitted[0]) * 60;
-        songArray.push({name: row.name, yt_link: row.yt_link, duration: seconds, year: row.year})
-        //songArray.push(new music(row.yt_link, row.duration, row.name));
+        songArray.push({name: row.name, yt_link: row.yt_link, year: row.year})
+       
       });
       // console.log("Result:")
       // console.log(result)
