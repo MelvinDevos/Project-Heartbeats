@@ -105,15 +105,20 @@ router.post("/meting/:id", async (req, res) => {
     }    
     let patient_info = await getPatientInfo(req.params.id)
     console.log(req.body.heartrate)
-    console.log(patient_info.hr_tresh)
+    console.log(patient_info)
     console.log(req.body.heartrate > patient_info.hr_tresh)
+    
     if(req.body.heartrate > patient_info.hr_tresh)
     {
       let patientSpeaker = await checkSpeakerId(patient_info.box_id);
-      let songArray = await getPlaylist(req.params.id)
-      if(songArray.length == 0){
-        songArray = await getDefaultPlaylist(patient_info)
+      let songArray =[]
+      if(patient_info.custom == 0){
+       songArray = await getDefaultPlaylist(patient_info)
       }
+      else{
+        songArray = await getPlaylist(req.params.id)
+      }
+      
       console.log("lengte")
       console.log(songArray.length)
       let patient = new Player(req.params.id, patientSpeaker,shuffle(songArray))
@@ -136,11 +141,11 @@ router.post("/meting/:id", async (req, res) => {
 async function getPatientInfo(ID) {
   return new Promise(resolve => {
     const connection = pool.query(
-      `SELECT box_id, hr_tresh, age FROM patient WHERE id = ${ID}`,
+      `SELECT box_id, hr_tresh, age, custom FROM patient WHERE id = ${ID}`,
       (error, result) => {
         if (error) return console.log(error);
         // console.log(result)
-        resolve({patient_id: ID,box_id: result[0].box_id,hr_tresh: result[0].hr_tresh, age: result[0].age})      
+        resolve({patient_id: ID,box_id: result[0].box_id,hr_tresh: result[0].hr_tresh, age: result[0].age, custom :result[0].custom})      
       }
     );
   });
