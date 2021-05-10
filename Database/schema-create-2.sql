@@ -27,6 +27,14 @@ CREATE TABLE `songs` (
   `duration` varchar(255) NOT NULL
 );
 
+CREATE TABLE `default_songs` (
+  `id` int PRIMARY KEY AUTO_INCREMENT,
+  `name` varchar(255) NOT NULL,
+  `yt_link` varchar(255) NOT NULL,
+  `duration` varchar(255) NOT NULL,
+  `year` int NOT NULL
+);
+
 CREATE TABLE `playlist_songs` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `patient_id` int NOT NULL,
