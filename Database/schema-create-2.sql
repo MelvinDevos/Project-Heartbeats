@@ -42,7 +42,7 @@ CREATE TABLE `playlist_songs` (
 
 ALTER TABLE `playlist_songs` ADD FOREIGN KEY (`patient_id`) REFERENCES `patient` (`id`) ON DELETE CASCADE;
 
-ALTER TABLE `playlist_songs` ADD FOREIGN KEY (`song_id`) REFERENCES `songs` (`id`);
+ALTER TABLE `playlist_songs` ADD FOREIGN KEY (`song_id`) REFERENCES `songs` (`id`) ON DELETE CASCADE;
 
 
 
