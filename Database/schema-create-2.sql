@@ -15,9 +15,11 @@ CREATE TABLE `admin` (
 CREATE TABLE `patient` (
   `id` int PRIMARY KEY AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
+  `age` int NOT NULL,
   `box_id` varchar(255),
   `type_dementia` varchar(255),
-  `hr_tresh` int DEFAULT 90
+  `hr_tresh` int DEFAULT 90,
+  `custom` int DEFAULT NULL
 );
 
 CREATE TABLE `songs` (
