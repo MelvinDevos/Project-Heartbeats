@@ -103,7 +103,7 @@ export default {
         type_dementia: "",
         hr_tresh: 0,
         box_id: "",
-        custom:0,
+        custom:false,
       },
       dialog: false,
     };

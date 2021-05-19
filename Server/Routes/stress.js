@@ -41,15 +41,27 @@ class Player {
       console.log(`${error}`);
     }
   }
+  async start(){
+    let that = this
+    this.box_id.on('finished',function () {
+      console.log('on device')
+      console.log(that.box_id.friendlyName)
+      that.index++;
+      that.playMusic()
+    })
+  }
   async playMusic(){
-    let timer
-    clearTimeout(this.timer);
+    // let timer
+    // clearTimeout(this.timer);
     console.log('index is ' + this.index)
     console.log('this is the song')
     console.log(this.song_array[this.index])
     console.log("Hoelang?" + this.song_array.length)
     // console.log("patientspeaker is")
-    // console.log(this.box_id)
+    // console.log(this.box_id)+
+    if(this.index == 0){
+      this.start()
+    }
     if(this.index > this.song_array.length - 1){
       this.stopMusic()
     }
@@ -60,12 +72,6 @@ class Player {
       try{
 
         let that = this
-        this.box_id.on('finished',function () {
-          console.log('on device')
-          console.log(that.box_id.friendlyName)
-          that.index++;
-          that.playMusic()
-        })
         this.box_id.play(mediaURL, function (err) {
           if (!err){
             console.log("Playing in your chromecast")
@@ -95,6 +101,7 @@ class Player {
     console.log(currentlyPlaying)
   }
 }
+client.update()
 router.post("/meting/:id", async (req, res) => {
   
   console.log("er is stressmeting voor patient", req.params.id);

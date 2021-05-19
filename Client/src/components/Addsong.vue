@@ -36,18 +36,6 @@
             </v-col>
           </v-row>
 
-          <v-row>
-            <v-col md3>
-              <v-text-field
-                label="Duratie"
-                placeholder="bv: 3:13"
-                v-model="song.duration"
-                prepend-icon="timer"
-                required
-              ></v-text-field>
-            </v-col>
-          </v-row>
-
           <v-row justify="space-around">
             <v-btn
               class="green lighten-1 mb-2"
@@ -75,7 +63,6 @@ export default {
       song: {
         name: "",
         yt_link: "",
-        duration: "",
       },
       dialog: false,
     };
