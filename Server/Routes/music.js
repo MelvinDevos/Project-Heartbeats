@@ -1,6 +1,6 @@
 const express = require("express");
 const pool = require("../Modules/db");
-const verify = require("../modules/verifyToken");
+const verify = require("../Modules/verifyToken");
 const joi = require("joi");
 const speakers = require("../Modules/speaker");
 

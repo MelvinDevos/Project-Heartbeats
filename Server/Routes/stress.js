@@ -1,7 +1,7 @@
 const express = require("express");
 const pool = require("../Modules/db");
 const speakers = require("../Modules/speaker");
-const verify = require("../modules/verifyToken");
+const verify = require("../Modules/verifyToken");
 const joi = require("joi");
 const ChromecastAPI = require("chromecast-api");
 const client = new ChromecastAPI();
@@ -43,6 +43,10 @@ class Player {
   }
   async start(){
     let that = this
+    this.box_id.on('status' ,function(status) {
+      // console.log(status)
+      if(status.playerState == 'PAUSED'){that.stopMusic()}
+    })
     this.box_id.on('finished',function () {
       console.log('on device')
       console.log(that.box_id.friendlyName)
